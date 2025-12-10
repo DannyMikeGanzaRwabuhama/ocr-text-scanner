@@ -14,7 +14,7 @@ A modern web-based OCR (Optical Character Recognition) application built with St
 
 ## 🎯 Demo
 
-[Add your video demo link here]
+[Watch the video demonstration](https://drive.google.com/file/d/10gP1RYqSDxFl1lpzA_TqjY7gMrOLkaqC/view?usp=drive_link)
 
 ## 📋 Requirements
 
@@ -31,7 +31,7 @@ A modern web-based OCR (Optical Character Recognition) application built with St
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/DannyMikeGanzaRwabuhama/ocr-text-scanner.git
-cd printed_text_scanner
+cd ocr-text-scanner
 ```
 
 ### 2. Install Python dependencies
@@ -151,9 +151,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📧 Contact
 
-DannyMikeGanzaRwabuhama - hc10u72fn@mozmail.com
+Your Name - hc10u72fn@mozmail.com
 
-Project Link: [https://github.com/DannyMikeGanzaRwabuhama/ocr-text-scanner](https://github.com/GanzaRwabuhamaDannyMike/ocr-text-scanner)
+Project Link: [https://github.com/DannyMikeGanzaRwabuhama/ocr-text-scanner](https://github.com/DannyMikeGanzaRwabuhama/ocr-text-scanner)
 
 ---
 

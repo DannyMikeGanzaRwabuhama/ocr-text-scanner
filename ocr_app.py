@@ -1,3 +1,4 @@
+import utils.session
 import streamlit as st
 import cv2
 import pytesseract
@@ -45,6 +46,8 @@ if 'last_file_id' not in st.session_state:
     st.session_state.last_file_id = None
 if 'canvas_data' not in st.session_state:
     st.session_state.canvas_data = None
+if 'input_method' not in st.session_state:
+    st.session_state.input_method = "Upload"
 
 
 def reset_state():
@@ -113,32 +116,45 @@ col_left, col_right = st.columns([1, 1], gap="large")
 with col_left:
     st.markdown("### 📥 Upload & Draw ROI")
 
-    # Compact file uploader
-    uploaded_file = st.file_uploader(
-        "Upload image",
-        type=["jpg", "jpeg", "png", "bmp"],
+    # Input method selector - KEY FIX: Only show ONE input method at a time
+    input_method = st.radio(
+        "Choose input method:",
+        ["📁 Upload File", "📷 Use Camera"],
+        horizontal=True,
         label_visibility="collapsed"
     )
 
-    if uploaded_file is not None:
-        current_id = uploaded_file.file_id
-        # Only reset when uploading a NEW image
-        if st.session_state.last_file_id != current_id:
-            st.session_state.original_image = Image.open(uploaded_file)
-            st.session_state.last_file_id = current_id
-            reset_state()  # Clear everything else
+    # Show ONLY the selected input method
+    if input_method == "📁 Upload File":
+        uploaded_file = st.file_uploader(
+            "Choose an image",
+            type=["jpg", "jpeg", "png", "bmp"],
+            label_visibility="collapsed",
+            key="file_uploader"
+        )
 
-    # Camera option in expander to save space
-    with st.expander("📷 Or use camera"):
-        camera_image = st.camera_input("Take a picture", label_visibility="collapsed")
+        if uploaded_file is not None:
+            current_id = uploaded_file.file_id
+            # Only process if it's a new file
+            if st.session_state.last_file_id != current_id:
+                st.session_state.original_image = Image.open(uploaded_file)
+                st.session_state.last_file_id = current_id
+                reset_state()
+
+    else:  # Camera mode
+        camera_image = st.camera_input(
+            "Take a picture",
+            label_visibility="collapsed",
+            key="camera_input"
+        )
 
         if camera_image is not None:
             current_id = camera_image.file_id
-            # Only reset when capturing a NEW image
+            # Only process if it's a new capture
             if st.session_state.last_file_id != current_id:
                 st.session_state.original_image = Image.open(camera_image)
                 st.session_state.last_file_id = current_id
-                reset_state()  # Clear everything else
+                reset_state()
 
     # Show canvas if image uploaded
     if st.session_state.original_image is not None:
@@ -207,7 +223,7 @@ with col_left:
                 st.rerun()
 
     else:
-        st.info("👆 Upload an image to start")
+        st.info("👆 Select an input method above to start")
 
 # RIGHT COLUMN - OCR & Results
 with col_right:
